@@ -25,6 +25,6 @@ class Logger:
         logger.setLevel(self.log_level)
         logger.addHandler(self.get_console_handler())
         logger.addHandler(self.get_file_handler())
-        logger.propagate = False
+        logger.propagate = True
         return logger
 

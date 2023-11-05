@@ -13,12 +13,6 @@ class FilesHelper:
     def read_config_file(self, file_path: str):
         file_type = file_path.split('.')[-1]
         try:
-            if file_type == 'json':
-                '''TO DO'''
-
-            if file_type == 'csv':
-                '''TO DO'''
-
             if file_type == 'yaml':
                 with open(file_path, 'r') as conf_file:
                     config = yaml.safe_load(conf_file)
@@ -55,8 +49,6 @@ class FilesHelper:
             if file_type == 'csv':
                 df.to_csv(full_file_path)
                 self.file_logger.info(msg)
-            elif file_type == 'json':
-                '''TO DO'''
 
         except Exception as err:
             msg = f"Exception occurred during the execution of 'save_data_file' function. Failed to save '{file_name}.{file_type}' to" \

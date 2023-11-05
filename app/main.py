@@ -5,7 +5,7 @@ from utils.handler import DataHandler
 
 
 log_file_path = './logs/app_logs.log'
-config_file_path = './config/data_config.yaml'
+config_file_path = './config/config.yaml'
 
 file_logger = Logger(log_file_path).get_logger('file_logger')
 run_logger = Logger(log_file_path).get_logger('run_logger')
@@ -16,7 +16,7 @@ def run():
 
     file_handler = FilesHelper(file_logger)
     file_handler.read_config_file(file_path=config_file_path)
-    file_handler.read_config_file(file_path='./config/data_config.yaml')
+    file_handler.read_config_file(file_path=config_file_path)
 
     try:
         start_time = datetime.datetime.now()
@@ -30,9 +30,8 @@ def run():
         )
 
         df = file_handler.data_df
-        data_handler = DataHandler(data_logger, data_file_conf)
-        data_handler.check_data_completeness(df)
-        data_handler.validate_schema(df)
+        data_handler = DataHandler('cars', data_logger, data_file_conf)
+        data_handler.check_required_columns(df)
 
         fn_params = file_handler.config_file['functions_params']
         data_handler.get_unique_number(
@@ -42,10 +41,11 @@ def run():
         data_handler.get_average(
             df=df,
             column_name=fn_params['get_average']['column'])
+
         data_handler.get_top_max(
             df=df,
             numeric_column_name=fn_params['get_top_max']['sort_by'],
-            label_column=fn_params['get_top_max']['group_by'],
+            name_column=fn_params['get_top_max']['group_by'],
             n_top=fn_params['get_top_max']['top_n']
         )
         data_handler.get_count_by_value(
